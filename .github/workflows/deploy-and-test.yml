@@ -5,6 +5,8 @@ on:
     branches:
       - main
   pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -28,14 +30,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install Frontend Dependencies
-        run: npm ci
+        run: npm install --legacy-peer-deps
+
+      - name: Run Web Full Application E2E Tests & Excel Analysis
+        run: node selenium-tests/tests/e2e_full_application.test.js
 
       - name: Run 1,100 Web E2E Assertions
-        run: |
-          node selenium-tests/tests/mega_web_1100.test.js
+        run: node selenium-tests/tests/mega_web_1100.test.js
 
       - name: Build Web Application
         run: npm run build
@@ -56,6 +59,14 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      - name: Upload Excel & HTML Test Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-e2e-analysis-reports
+          path: |
+            agrimart-web-selenium-analysis.xlsx
+            Test_Results/HTML/execution-report.html
+
       - name: Publish Test Statistics to Step Summary
         run: |
           echo "## 🌾 AgriMart 1,100 E2E Test Suite Summary" >> $GITHUB_STEP_SUMMARY
@@ -63,4 +74,5 @@ jobs:
           echo "- **Passed**: 1,100 (100% Pass Rate)" >> $GITHUB_STEP_SUMMARY
           echo "- **Failed**: 0" >> $GITHUB_STEP_SUMMARY
           echo "- **Categories Covered**: 110 Functional Categories" >> $GITHUB_STEP_SUMMARY
+          echo "- **Excel Analysis**: agrimart-web-selenium-analysis.xlsx" >> $GITHUB_STEP_SUMMARY
           echo "- **Live Report URL**: ${{ steps.deployment.outputs.page_url }}reports/latest/execution-report.html" >> $GITHUB_STEP_SUMMARY
