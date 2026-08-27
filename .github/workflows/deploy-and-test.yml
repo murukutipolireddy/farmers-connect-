@@ -1,4 +1,4 @@
-name: Web E2E (1,100 Tests) & Pages Deployment
+name: Web E2E (1,100 Tests) & Test Reports
 
 on:
   push:
@@ -9,18 +9,9 @@ on:
       - main
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: 'pages'
-  cancel-in-progress: false
-
 jobs:
-  test-and-deploy:
-    name: Run 1,100 E2E Tests & Deploy to Pages
+  test-and-report:
+    name: Run 1,100 E2E Tests & Generate Reports
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -47,20 +38,7 @@ jobs:
         run: |
           npm run build || true
           mkdir -p out/reports/latest
-          mkdir -p out/reports/history/build-${{ github.run_number }}
           cp Test_Results/HTML/execution-report.html out/reports/latest/execution-report.html || true
-          cp Test_Results/HTML/execution-report.html out/index.html || true
-
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
-        continue-on-error: true
-        with:
-          path: out
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        continue-on-error: true
 
       - name: Upload Excel & HTML Test Artifacts
         uses: actions/upload-artifact@v4
