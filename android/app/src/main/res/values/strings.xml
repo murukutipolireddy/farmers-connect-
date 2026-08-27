@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Agrimart</string>
+    <string name="title_activity_main">Agrimart</string>
+    <string name="package_name">com.agrimart.app</string>
+    <string name="custom_url_scheme">com.agrimart.app</string>
+    <string name="server_client_id">419857452747-453f73qthak6vimjea3l1bid1fhvnjq7.apps.googleusercontent.com</string>
+</resources>

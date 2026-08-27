@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "419857452747",
+    "project_id": "agri-for-future",
+    "storage_bucket": "agri-for-future.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:419857452747:android:419d2b7f0ef35dba42154e",
+        "android_client_info": {
+          "package_name": "com.agrimart.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "419857452747-0ls9q56covf6fik8iu1kr8jjlh72jl6r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.agrimart.app",
+            "certificate_hash": "b20be638c4d74147491400fbf14b47b980d7404a"
+          }
+        },
+        {
+          "client_id": "419857452747-453f73qthak6vimjea3l1bid1fhvnjq7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYioJXnPBX4Il8XbNiV0w957Dy9zHkRas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "419857452747-453f73qthak6vimjea3l1bid1fhvnjq7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
