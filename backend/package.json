@@ -21,6 +21,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^20.0.0",
+    "exceljs": "^4.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.0.0"
   }
