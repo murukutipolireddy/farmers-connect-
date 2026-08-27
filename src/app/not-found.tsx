@@ -8,7 +8,17 @@ export default function NotFound() {
     const router = useRouter();
 
     const handleGoHome = () => {
-        router?.push('/');
+        const basePath =
+            typeof window !== 'undefined' && window.location.pathname.startsWith('/farmers-connect-')
+                ? '/farmers-connect-'
+                : '';
+        try {
+            router?.push('/');
+        } catch (e) {
+            if (typeof window !== 'undefined') {
+                window.location.href = `${basePath}/`;
+            }
+        }
     };
 
     const handleGoBack = () => {

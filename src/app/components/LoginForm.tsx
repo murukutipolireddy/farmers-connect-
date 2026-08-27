@@ -71,11 +71,16 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
         ? '/admin-dashboard'
         : '/farmer-dashboard';
 
+    const basePath =
+      typeof window !== 'undefined' && window.location.pathname.startsWith('/farmers-connect-')
+        ? '/farmers-connect-'
+        : '';
+
     try {
       router.replace(dest);
     } catch (e) {
       if (typeof window !== 'undefined') {
-        window.location.href = dest;
+        window.location.href = `${basePath}${dest}`;
       }
     }
   };
