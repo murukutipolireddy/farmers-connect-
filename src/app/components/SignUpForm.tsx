@@ -71,6 +71,17 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
     defaultValues: { role: 'farmer', language: 'en' },
   });
 
+  useEffect(() => {
+    try {
+      router.prefetch('/farmer-dashboard');
+      router.prefetch('/retailer-dashboard');
+      router.prefetch('/logistics-dashboard');
+      router.prefetch('/produce-listing-page');
+    } catch (e) {
+      // ignore prefetch errors
+    }
+  }, [router]);
+
   const selectedRole = watch('role');
   const passwordValue = watch('password');
 

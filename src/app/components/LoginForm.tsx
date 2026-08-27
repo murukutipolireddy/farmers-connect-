@@ -46,6 +46,17 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
     defaultValues: { rememberMe: true },
   });
 
+  useEffect(() => {
+    try {
+      router.prefetch('/farmer-dashboard');
+      router.prefetch('/retailer-dashboard');
+      router.prefetch('/logistics-dashboard');
+      router.prefetch('/produce-listing-page');
+    } catch (e) {
+      // ignore prefetch errors
+    }
+  }, [router]);
+
   const phoneValue = watch('phone');
   const passwordValue = watch('password');
 

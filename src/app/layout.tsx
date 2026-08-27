@@ -3,12 +3,14 @@ import type { Metadata, Viewport } from 'next';
 import { Sora, DM_Sans } from 'next/font/google';
 import '../styles/tailwind.css';
 import { Toaster } from 'sonner';
+import ClientRecoveryProvider from '@/components/ClientRecoveryProvider';
 
 const sora = Sora({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-sora',
   display: 'swap',
+  preload: true,
 });
 
 const dmSans = DM_Sans({
@@ -16,11 +18,15 @@ const dmSans = DM_Sans({
   weight: ['400', '500', '600', '700'],
   variable: '--font-dm-sans',
   display: 'swap',
+  preload: true,
 });
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: '#1A6B3A',
 };
 
 export const metadata: Metadata = {
@@ -30,9 +36,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [{ url: '/favicon.ico', type: 'image/x-icon' }],
   },
+  other: {
+    'format-detection': 'telephone=no',
+    'mobile-web-app-capable': 'yes',
+  },
 };
-
-import ClientRecoveryProvider from '@/components/ClientRecoveryProvider';
 
 export default function RootLayout({
   children,
@@ -41,13 +49,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${sora.variable} ${dmSans.variable}`}>
-      <body className={dmSans.className}>
+      <head>
+        {/* Preconnect to external image origins for ultra-fast LCP */}
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+      </head>
+      <body className={`${dmSans.className} antialiased selection:bg-emerald-500 selection:text-white`}>
         <ClientRecoveryProvider>
           {children}
           <Toaster
             position="bottom-right"
             toastOptions={{
-              duration: 3500,
+              duration: 3000,
               style: {
                 fontFamily: 'var(--font-dm-sans)',
                 fontSize: '14px',
