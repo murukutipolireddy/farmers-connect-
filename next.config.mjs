@@ -1,9 +1,12 @@
 import { imageHosts } from './image-hosts.config.mjs';
 
-const isExport = process.env.CAPACITOR_EXPORT === 'true';
+const isExport = process.env.CAPACITOR_EXPORT === 'true' || process.env.GITHUB_PAGES === 'true';
+const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+const basePath = isGitHubPages ? '/farmers-connect-' : (process.env.BASE_PATH || '');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  ...(basePath ? { basePath, assetPrefix: `${basePath}/` } : {}),
   ...(isExport ? { output: 'export', trailingSlash: true } : {}),
   productionBrowserSourceMaps: false,
   distDir: process.env.DIST_DIR || '.next',

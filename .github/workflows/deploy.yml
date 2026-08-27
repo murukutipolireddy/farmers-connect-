@@ -192,21 +192,21 @@ jobs:
           name: dast-security-reports
           path: dist-artifacts/security
 
-      - name: Build Web Application & Assemble Documentation Hub
+      - name: Build Web Application with GitHub Pages BasePath & Assets
         env:
+          GITHUB_PAGES: 'true'
           CAPACITOR_EXPORT: 'true'
           NEXT_TELEMETRY_DISABLED: '1'
         run: |
+          npm run build
           mkdir -p out/reports/latest
           mkdir -p out/reports/web
           mkdir -p out/reports/mobile
           mkdir -p out/reports/load
           mkdir -p out/reports/security
-          npm run build || true
 
-          # Copy report dashboards to out directory
+          # Inject reports alongside full web application
           cp dist-artifacts/web/execution-report.html out/reports/latest/execution-report.html || true
-          cp dist-artifacts/web/execution-report.html out/index.html || true
           cp dist-artifacts/mobile/mobile-execution-report.html out/reports/mobile/index.html || true
           cp dist-artifacts/web/agrimart-web-selenium-analysis.xlsx out/reports/web/ || true
           cp dist-artifacts/mobile/agrimart-mobile-appium-analysis.xlsx out/reports/mobile/ || true
