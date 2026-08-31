@@ -108,16 +108,6 @@ export default function RetailerDashboardContent() {
 
   const router = useRouter();
 
-  useEffect(() => {
-    try {
-      router.prefetch('/farmer-dashboard');
-      router.prefetch('/logistics-dashboard');
-      router.prefetch('/produce-listing-page');
-    } catch (e) {
-      // ignore
-    }
-  }, [router]);
-
   const handleRefresh = async () => {
     setIsRefreshing(true);
     setIsRefreshing(false);

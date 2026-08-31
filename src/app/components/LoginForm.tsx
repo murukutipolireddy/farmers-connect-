@@ -46,17 +46,6 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
     defaultValues: { rememberMe: true },
   });
 
-  useEffect(() => {
-    try {
-      router.prefetch('/farmer-dashboard');
-      router.prefetch('/retailer-dashboard');
-      router.prefetch('/logistics-dashboard');
-      router.prefetch('/produce-listing-page');
-    } catch (e) {
-      // ignore prefetch errors
-    }
-  }, [router]);
-
   const phoneValue = watch('phone');
   const passwordValue = watch('password');
 
@@ -71,16 +60,11 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
         ? '/admin-dashboard'
         : '/farmer-dashboard';
 
-    const basePath =
-      typeof window !== 'undefined' && window.location.pathname.startsWith('/farmers-connect-')
-        ? '/farmers-connect-'
-        : '';
-
     try {
       router.replace(dest);
     } catch (e) {
       if (typeof window !== 'undefined') {
-        window.location.href = `${basePath}${dest}`;
+        window.location.href = dest;
       }
     }
   };

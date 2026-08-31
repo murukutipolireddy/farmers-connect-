@@ -40,8 +40,10 @@ jobs:
       - name: Run Web Full Application E2E Tests & Excel Analysis
         run: node selenium-tests/tests/e2e_full_application.test.js
 
-      - name: Run 1,100 Web E2E Assertions Suite
-        run: node selenium-tests/tests/mega_web_1100.test.js
+      - name: Run 1,100 Web E2E Assertions Suite & Generate 300+ Test Cases Excel
+        run: |
+          node selenium-tests/tests/mega_web_1100.test.js
+          node scripts/generateSeleniumAndDastExcelReports.js
 
       - name: Upload Web Test Artifacts
         uses: actions/upload-artifact@v4
@@ -49,6 +51,7 @@ jobs:
           name: selenium-web-reports
           path: |
             agrimart-web-selenium-analysis.xlsx
+            agrimart-selenium-test-cases-300.xlsx
             Test_Results/HTML/execution-report.html
 
   # =========================================================================
@@ -132,6 +135,10 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install Backend Dependencies for Excel Reporting
+        working-directory: backend
+        run: npm install --legacy-peer-deps
+
       - name: Run Web Frontend Security Review
         run: node scripts/generateWebSecuritySuite.js
 
@@ -139,11 +146,15 @@ jobs:
         working-directory: backend
         run: node scripts/generateSecuritySuite.js
 
+      - name: Generate DAST Security Excel Audit Report
+        run: node scripts/generateSeleniumAndDastExcelReports.js
+
       - name: Upload Security Audit Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dast-security-reports
           path: |
+            agrimart-dast-security-report.xlsx
             web-executive-summary.md
             web-security-review.md
             backend/executive-summary.md

@@ -5,9 +5,8 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { apiFetch } from '@/lib/api';
-import { auth, db } from '@/lib/firebase';
-import { GoogleAuthProvider, signInWithPopup, signInWithRedirect, createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { auth } from '@/lib/firebase';
+import { GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
 import { performGoogleSignIn } from '@/lib/googleAuthHelper';
 import {
   Phone, Eye, EyeOff, Loader2, ChevronDown, Sprout,
@@ -72,17 +71,6 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
     defaultValues: { role: 'farmer', language: 'en' },
   });
 
-  useEffect(() => {
-    try {
-      router.prefetch('/farmer-dashboard');
-      router.prefetch('/retailer-dashboard');
-      router.prefetch('/logistics-dashboard');
-      router.prefetch('/produce-listing-page');
-    } catch (e) {
-      // ignore prefetch errors
-    }
-  }, [router]);
-
   const selectedRole = watch('role');
   const passwordValue = watch('password');
 
@@ -138,16 +126,11 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
           ? '/admin-dashboard'
           : '/farmer-dashboard';
 
-      const basePath =
-        typeof window !== 'undefined' && window.location.pathname.startsWith('/farmers-connect-')
-          ? '/farmers-connect-'
-          : '';
-
       try {
         router.replace(dest);
       } catch (e) {
         if (typeof window !== 'undefined') {
-          window.location.href = `${basePath}${dest}`;
+          window.location.href = dest;
         }
       }
     } catch (e: any) {
@@ -176,37 +159,6 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
   const onSubmit = async (data: SignUpFormValues) => {
     setIsSubmitting(true);
     try {
-      // 1. Direct Firebase Auth (if email & password provided)
-      if (data.email && data.password && data.password.length >= 6) {
-        try {
-          await createUserWithEmailAndPassword(auth, data.email, data.password);
-        } catch (firebaseAuthErr: any) {
-          // If already exists or auth domain note, continue to profile creation
-          console.warn('Firebase Auth note:', firebaseAuthErr?.message);
-        }
-      }
-
-      // 2. Direct Firestore Profile Document Creation
-      try {
-        const userDocRef = doc(db, 'users', data.phone);
-        await setDoc(
-          userDocRef,
-          {
-            name: data.name,
-            phone: data.phone,
-            email: data.email || null,
-            role: data.role.toLowerCase(),
-            state: data.state,
-            language: data.language,
-            updatedAt: Date.now(),
-          },
-          { merge: true }
-        );
-      } catch (firestoreErr) {
-        console.warn('Direct Firestore save note:', firestoreErr);
-      }
-
-      // 3. Universal API Registration / Session Sync
       const response = await apiFetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

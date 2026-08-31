@@ -47,7 +47,7 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Screenshots & Testing dumps
+# Testing dumps & secrets
 phone_*.png
 mobile_*.png
 screen_*.png
@@ -57,3 +57,4 @@ mobile_*.txt
 coverage/
 .vscode/
 .idea/
+*serviceAccountKey.json

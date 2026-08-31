@@ -8,20 +8,30 @@ import {
 } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyC_7tCjsrFFiZUGizXsoaeipGfzk5zoEbQ",
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "agri-for-future.firebaseapp.com",
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "agri-for-future",
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "agri-for-future.firebasestorage.app",
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "419857452747",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:419857452747:web:2d1fa5983539968042154e",
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-BK9MR2R1KJ"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "placeholder-api-key",
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "placeholder-auth-domain",
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "placeholder-project-id",
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "placeholder-storage-bucket",
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "placeholder-sender-id",
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "placeholder-app-id",
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase client instance
+// Check for missing keys and log warning in development
+if (
+  process.env.NODE_ENV !== 'production' &&
+  (!process.env.NEXT_PUBLIC_FIREBASE_API_KEY || process.env.NEXT_PUBLIC_FIREBASE_API_KEY === "placeholder-api-key")
+) {
+  console.warn(
+    '⚠️ Firebase Client keys are missing in your environment variables. Please check your .env file.'
+  );
+}
+
+// Initialize Firebase client
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
 
-// Initialize Firestore with Persistent IndexedDB Cache for offline resilience & real-time sync
+// Initialize Firestore with Persistent IndexedDB Cache (for offline mobile resilience & automatic reconnection sync)
 let db: ReturnType<typeof getFirestore>;
 try {
   if (typeof window !== 'undefined') {
@@ -38,4 +48,4 @@ try {
   db = getFirestore(app);
 }
 
-export { app, auth, db, firebaseConfig };
+export { app, auth, db };

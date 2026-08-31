@@ -50,11 +50,15 @@ jobs:
             echo "✅ Security Gate PASSED: 0 Critical Vulnerabilities (Score 72/100 Low Risk)"
           fi
 
+      - name: Generate DAST Security Excel Audit Report
+        run: node scripts/generateSeleniumAndDastExcelReports.js
+
       - name: Upload Security Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: security-reports
+          name: dast-security-reports
           path: |
+            agrimart-dast-security-report.xlsx
             web-executive-summary.md
             web-security-review.md
             backend/executive-summary.md
