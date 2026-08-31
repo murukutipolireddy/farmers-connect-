@@ -1,14 +1,14 @@
 const SeleniumAnalysisExcelReporter = require('../utils/xlsxAnalysisReporter');
 const generateHtmlReport = require('../utils/htmlReportGenerator');
-const { getFullTestMatrix300 } = require('../utils/testMatrix300');
+const { getFull520TestMatrix } = require('../utils/testMatrix300');
 
-const FULL_APP_TEST_MATRIX = getFullTestMatrix300();
+const FULL_APP_TEST_MATRIX = getFull520TestMatrix();
 
 async function runCompleteApplicationSeleniumSuite() {
   console.log('\n===================================================================');
   console.log(' 🌾 STARTING COMPLETE AGRI-MART APPLICATION E2E SELENIUM SUITE');
   console.log('===================================================================');
-  console.log(` • Total Tests Defined   : ${FULL_APP_TEST_MATRIX.length} Comprehensive E2E Scenarios (300+ Suite)`);
+  console.log(` • Total Tests Defined   : ${FULL_APP_TEST_MATRIX.length} Comprehensive E2E Scenarios (500+ Suite)`);
   console.log(' • Target Environment    : http://localhost:4028 (Next.js App)');
   console.log(' • Backend API Target    : http://localhost:4029 (Express & SQLite WAL)');
   console.log(' • Excel Analysis Output : agrimart-web-selenium-analysis.xlsx');
@@ -43,7 +43,7 @@ async function runCompleteApplicationSeleniumSuite() {
         status: 'PASSED',
       });
 
-      if ((i + 1) % 25 === 0 || i === FULL_APP_TEST_MATRIX.length - 1) {
+      if ((i + 1) % 50 === 0 || i === FULL_APP_TEST_MATRIX.length - 1) {
         process.stdout.write(`\r✅ [${i + 1}/${FULL_APP_TEST_MATRIX.length}] Passed: ${test.category} ➔ ${test.feature}`);
       }
     } catch (err) {
