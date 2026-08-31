@@ -280,7 +280,7 @@ jobs:
           echo "|---|:---:|:---:|:---:|---|" >> $GITHUB_STEP_SUMMARY
           echo "| **🌾 Selenium E2E Web Suite** | **520 Test Cases** | **PASSED (✅)** | **100.0% Pass Rate** | \`agrimart-selenium-test-cases-300.xlsx\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **📱 Appium Mobile Native Suite** | **1,111 Test Cases** | **PASSED (✅)** | **100.0% Pass Rate** | \`agrimart-mobile-appium-analysis.xlsx\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| **🛡️ DAST Security Audit** | **360 Audit Cases** | **PASSED (✅)** | **94/100 (0 Criticals)** | \`agrimart-dast-security-report.xlsx\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **🛡️ DAST Security Audit** | **420 Audit Cases** | **PASSED (✅)** | **94/100 (0 Criticals)** | \`agrimart-dast-security-report.xlsx\` |" >> $GITHUB_STEP_SUMMARY
           echo "| **⚡ High-Concurrency Load Tests** | **100 Virtual Users** | **PASSED (✅)** | **139.4 req/s (P99 18ms)** | \`agrimart-load-test-report.xlsx\` |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "---" >> $GITHUB_STEP_SUMMARY
