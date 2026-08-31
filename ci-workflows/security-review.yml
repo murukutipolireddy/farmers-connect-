@@ -53,6 +53,13 @@ jobs:
       - name: Generate DAST Security Excel Audit Report
         run: node scripts/generateSeleniumAndDastExcelReports.js
 
+      - name: Publish DAST Security Summary to GitHub Actions
+        if: always()
+        run: |
+          if [ -f dast-step-summary.md ]; then
+            cat dast-step-summary.md >> $GITHUB_STEP_SUMMARY
+          fi
+
       - name: Upload Security Artifacts
         uses: actions/upload-artifact@v4
         with:

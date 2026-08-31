@@ -45,6 +45,16 @@ jobs:
           node selenium-tests/tests/mega_web_1100.test.js
           node scripts/generateSeleniumAndDastExcelReports.js
 
+      - name: Publish 365+ Selenium Test Cases & DAST Summary to GitHub Actions
+        if: always()
+        run: |
+          if [ -f selenium-step-summary.md ]; then
+            cat selenium-step-summary.md >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ -f dast-step-summary.md ]; then
+            cat dast-step-summary.md >> $GITHUB_STEP_SUMMARY
+          fi
+
       - name: Upload Web Test Artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -52,6 +62,7 @@ jobs:
           path: |
             agrimart-web-selenium-analysis.xlsx
             agrimart-selenium-test-cases-300.xlsx
+            agrimart-dast-security-report.xlsx
             Test_Results/HTML/execution-report.html
 
   # =========================================================================
